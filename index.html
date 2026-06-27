@@ -109,7 +109,6 @@
         .hero-eyebrow {
             font-family: var(--mono); font-size: 0.85rem;
             color: var(--accent); letter-spacing: 0.1em; margin-bottom: 1.5rem;
-            opacity: 0; animation: fadeUp 0.6s 0.15s forwards;
         }
         .hero-eyebrow::before { content: '$ '; opacity: 0.45; }
 
@@ -118,7 +117,6 @@
             font-size: clamp(3.2rem, 9vw, 7.5rem);
             font-weight: 800; line-height: 1.0;
             letter-spacing: -0.03em; margin-bottom: 1rem;
-            opacity: 0; animation: fadeUp 0.6s 0.3s forwards;
         }
         /* glitch layers */
         .glitch { position: relative; display: inline-block; }
@@ -158,7 +156,6 @@
             font-size: clamp(1.2rem, 3vw, 1.8rem);
             font-weight: 600; color: var(--muted); margin-bottom: 1.75rem;
             min-height: 2.3rem;
-            opacity: 0; animation: fadeUp 0.6s 0.45s forwards;
         }
         .typed-text { color: var(--accent); }
         .cursor-blink {
@@ -172,11 +169,9 @@
         .hero-desc {
             color: var(--muted); max-width: 540px; font-size: 1.05rem; line-height: 1.8;
             margin-bottom: 2.5rem;
-            opacity: 0; animation: fadeUp 0.6s 0.6s forwards;
         }
         .hero-actions {
             display: flex; gap: 1rem; flex-wrap: wrap;
-            opacity: 0; animation: fadeUp 0.6s 0.75s forwards;
         }
 
         /* ── BUTTONS ── */
@@ -201,15 +196,9 @@
         .hero-stats {
             display: flex; gap: 3rem; margin-top: 4rem;
             padding-top: 2.5rem; border-top: 1px solid var(--border);
-            opacity: 0; animation: fadeUp 0.6s 0.9s forwards;
         }
         .stat-num { font-family: var(--display); font-size: 2.2rem; font-weight: 800; color: var(--accent); }
         .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; letter-spacing: 0.02em; }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(22px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
 
         /* ── SECTION BASE ── */
         section { padding: 7rem 2.5rem; }
@@ -481,21 +470,6 @@
             color: var(--muted); font-size: 0.78rem; font-family: var(--mono);
         }
 
-        /* ── SCROLL ANIMATIONS ── */
-        .fade-up {
-            opacity: 0; transform: translateY(28px);
-            transition: opacity 0.65s ease, transform 0.65s ease;
-        }
-        .fade-up.visible { opacity: 1; transform: none; }
-        .stagger > * {
-            opacity: 0; transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
-        .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.12s; }
-        .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.24s; }
-        .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.36s; }
-
         /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
             nav { padding: 1rem 1.5rem; }
@@ -543,7 +517,7 @@
 <section id="hero">
     <canvas id="hero-canvas"></canvas>
     <div class="hero-content">
-        <p class="hero-eyebrow">hello, world</p>
+        <p class="hero-eyebrow">Salut, Je m'appelle</p>
         <h1 class="hero-name">
             <span class="glitch" data-text="Ritika">Ritika</span><br>
             <span class="glitch" data-text="Beniwal">Beniwal</span>
@@ -739,7 +713,7 @@
                     <h3 class="card-title">Autonomous RC Car — CAN Bus</h3>
                     <p class="card-desc">Battery-powered self-navigating car with Google Maps Bluetooth integration. Real-time data processing and communication across 4 ARM Cortex-M4 microcontrollers over CAN Bus running FreeRTOS.</p>
                     <div class="card-links">
-                        <a href="#" class="card-link">⌥ GitHub</a>
+                        <a href="http://socialledge.com/sjsu/index.php/S22:_Firebolt" target="_blank" class="card-link">⌥ Project Wiki</a>
                     </div>
                 </div>
             </div>
@@ -763,7 +737,7 @@
                     <h3 class="card-title">Doodle Jump on LED Matrix</h3>
                     <p class="card-desc">Doodle Jump on a 64×64 LED matrix using LPC4058 microcontroller. Built a software MP3 driver over UART, game logic with a 2-axis joystick via ADC, and applied FreeRTOS semaphores, mutexes, interrupts, and multitasking.</p>
                     <div class="card-links">
-                        <a href="#" class="card-link">⌥ GitHub</a>
+                        <a href="http://socialledge.com/sjsu/index.php/F21:_Juvenile_Jumpers" target="_blank" class="card-link">⌥ Project Wiki</a>
                     </div>
                 </div>
             </div>
@@ -899,7 +873,11 @@
 <footer>// ritika beniwal · embedded software engineer · 2026</footer>
 
 <!-- ════════════════ SCRIPTS ════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
+gsap.registerPlugin(ScrollTrigger);
+
 // ── CUSTOM CURSOR ───────────────────────────────────────
 const dot  = document.getElementById('cursorDot');
 const ring = document.getElementById('cursorRing');
@@ -1008,39 +986,109 @@ function type() {
     if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; }
     setTimeout(type, del ? 38 : 75);
 }
-type();
 
-// ── COUNTER ANIMATION ───────────────────────────────────
-function runCounter(el) {
-    const target = parseInt(el.dataset.count);
-    const suffix = el.dataset.suffix;
-    const t0 = performance.now();
-    const dur = 1400;
-    (function tick(now) {
-        const p = Math.min((now - t0) / dur, 1);
-        const e = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.floor(e * target) + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-    })(t0);
-}
+// ── HERO ENTRANCE ───────────────────────────────────────
+gsap.set(['.hero-eyebrow', '.hero-name .glitch', '.hero-role', '.hero-desc', '.hero-actions .btn', '.hero-stats > div'], {
+    opacity: 0, y: 40
+});
 
-const statsObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            document.querySelectorAll('[data-count]').forEach(runCounter);
-            statsObs.disconnect();
-        }
+gsap.timeline({ defaults: { ease: 'power3.out' }, onComplete: type })
+    .to('.hero-eyebrow',       { opacity: 1, y: 0, duration: 0.7, delay: 0.1 })
+    .to('.hero-name .glitch',  { opacity: 1, y: 0, duration: 0.85, stagger: 0.2, ease: 'power4.out' }, '-=0.35')
+    .to('.hero-role',          { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
+    .to('.hero-desc',          { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
+    .to('.hero-actions .btn',  { opacity: 1, y: 0, duration: 0.5, stagger: 0.12 }, '-=0.3')
+    .to('.hero-stats > div',   { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, '-=0.2');
+
+// ── GSAP STAT COUNTERS ──────────────────────────────────
+ScrollTrigger.create({
+    trigger: '.hero-stats', start: 'top 90%', once: true,
+    onEnter() {
+        document.querySelectorAll('[data-count]').forEach(el => {
+            gsap.to({ val: 0 }, {
+                val: +el.dataset.count, duration: 1.6, ease: 'power2.out',
+                onUpdate() { el.textContent = Math.floor(this.targets()[0].val) + el.dataset.suffix; }
+            });
+        });
+    }
+});
+
+// ── SECTION TAGS ────────────────────────────────────────
+gsap.utils.toArray('.section-tag').forEach(el => {
+    gsap.from(el, {
+        scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' },
+        opacity: 0, x: -24, duration: 0.6, ease: 'power2.out'
     });
-}, { threshold: 0.6 });
-const statsEl = document.querySelector('.hero-stats');
-if (statsEl) statsObs.observe(statsEl);
+});
+
+// ── SECTION TITLES ──────────────────────────────────────
+gsap.utils.toArray('.section-title').forEach(el => {
+    gsap.from(el, {
+        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
+        opacity: 0, y: 50, duration: 0.9, ease: 'power3.out'
+    });
+});
+
+// ── ABOUT — image from left, text from right ─────────────
+gsap.from('.about-image-wrap', {
+    scrollTrigger: { trigger: '.about-grid', start: 'top 80%' },
+    opacity: 0, x: -70, duration: 1.1, ease: 'power3.out'
+});
+gsap.from('.about-text p', {
+    scrollTrigger: { trigger: '.about-text', start: 'top 78%' },
+    opacity: 0, y: 28, duration: 0.7, stagger: 0.15, ease: 'power2.out'
+});
+
+// ── TIMELINE ────────────────────────────────────────────
+gsap.from('.timeline-item', {
+    scrollTrigger: { trigger: '.timeline', start: 'top 80%' },
+    opacity: 0, x: -40, duration: 0.65, stagger: 0.15, ease: 'power2.out'
+});
+
+// ── EDUCATION CARDS ─────────────────────────────────────
+gsap.from('.edu-card', {
+    scrollTrigger: { trigger: '.edu-grid', start: 'top 82%' },
+    opacity: 0, y: 60, rotation: 2, duration: 0.8, stagger: 0.2, ease: 'back.out(1.4)'
+});
+
+// ── PROJECT CARDS ───────────────────────────────────────
+gsap.from('.project-card', {
+    scrollTrigger: { trigger: '.projects-grid', start: 'top 82%' },
+    opacity: 0, y: 70, duration: 0.7, stagger: 0.18, ease: 'power3.out'
+});
+
+// ── SKILL GROUPS ────────────────────────────────────────
+gsap.from('.skill-group', {
+    scrollTrigger: { trigger: '.skills-grid', start: 'top 82%' },
+    opacity: 0, y: 40, scale: 0.95, duration: 0.6, stagger: 0.1, ease: 'back.out(1.5)'
+});
+
+// ── SKILL PILLS pop-in ───────────────────────────────────
+gsap.utils.toArray('.skill-pill').forEach((pill, i) => {
+    gsap.from(pill, {
+        scrollTrigger: { trigger: pill, start: 'top 95%', toggleActions: 'play none none none' },
+        opacity: 0, scale: 0.6, duration: 0.35, delay: (i % 8) * 0.04, ease: 'back.out(2)'
+    });
+});
+
+// ── CONTACT ─────────────────────────────────────────────
+gsap.from('#contact .section-inner > *', {
+    scrollTrigger: { trigger: '#contact', start: 'top 80%' },
+    opacity: 0, y: 40, duration: 0.7, stagger: 0.12, ease: 'power2.out'
+});
+
+// ── CANVAS PARALLAX ─────────────────────────────────────
+gsap.to('#hero-canvas', {
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true },
+    y: 120, ease: 'none'
+});
 
 // ── 3D TILT CARDS ───────────────────────────────────────
 document.querySelectorAll('.tilt-card').forEach(card => {
     card.addEventListener('mousemove', e => {
-        const r  = card.getBoundingClientRect();
-        const x  = (e.clientX - r.left) / r.width  - 0.5;
-        const y  = (e.clientY - r.top)  / r.height - 0.5;
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
         card.style.transition = 'transform 0.08s ease, border-color 0.25s';
         card.style.transform  = `perspective(700px) rotateY(${x*14}deg) rotateX(${-y*14}deg) translateZ(10px)`;
     });
@@ -1050,37 +1098,16 @@ document.querySelectorAll('.tilt-card').forEach(card => {
     });
 });
 
-// ── ACTIVE NAV SECTION ──────────────────────────────────
+// ── ACTIVE NAV ──────────────────────────────────────────
 const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-const sectionEls = document.querySelectorAll('section[id]');
-
-new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            navLinks.forEach(a => {
-                a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
-            });
-        }
-    });
-}, { threshold: 0.45 }).observe && sectionEls.forEach(s => {
+document.querySelectorAll('section[id]').forEach(s => {
     new IntersectionObserver(entries => {
         entries.forEach(e => {
-            if (e.isIntersecting) {
-                navLinks.forEach(a => {
-                    a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
-                });
-            }
+            if (e.isIntersecting)
+                navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
         });
     }, { threshold: 0.45 }).observe(s);
 });
-
-// ── SCROLL FADE / STAGGER ───────────────────────────────
-const revealObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
-    });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-up, .stagger').forEach(el => revealObs.observe(el));
 </script>
 
 </body>
